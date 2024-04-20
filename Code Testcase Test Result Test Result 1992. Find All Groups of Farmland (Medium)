@@ -1,0 +1,38 @@
+Code: 
+
+class Solution {
+public:
+    int bottom_i;
+    int bottom_j;
+
+    void dfs(vector<vector<int>>& land, int i, int j){
+        if(i == land.size() || j == land[0].size() || land[i][j] == 0){
+            return;
+        }
+        land[i][j] = 0;
+        bottom_i = max(i, bottom_i);
+        bottom_j = max(j, bottom_j);
+        dfs(land, i+1, j);
+        dfs(land, i, j+1);
+    }
+
+    vector<vector<int>> findFarmland(vector<vector<int>>& land) {
+        int n = land.size();
+        int m = land[0].size();
+
+        vector<vector<int>> ans;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(land[i][j] == 1){
+                    bottom_i = i;
+                    bottom_j = j;
+                    dfs(land, i, j);
+                    ans.push_back({i, j, bottom_i, bottom_j});
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+
